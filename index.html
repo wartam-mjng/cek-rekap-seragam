@@ -222,6 +222,16 @@
                                     <td class="py-2.5 px-4 border-r border-slate-950">Celana/rok pramuka</td>
                                     <td class="py-2.5 px-4 text-center font-bold text-base text-slate-900" id="u-celana-pramuka">-</td>
                                 </tr>
+                                <tr>
+                                    <td class="py-2.5 px-3 text-center border-r border-slate-950">9</td>
+                                    <td class="py-2.5 px-4 border-r border-slate-950">Atribut</td>
+                                    <td class="py-2.5 px-4 text-center font-bold text-base text-slate-900" id="u-atribut">-</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2.5 px-3 text-center border-r border-slate-950">10</td>
+                                    <td class="py-2.5 px-4 border-r border-slate-950">Kaos OR</td>
+                                    <td class="py-2.5 px-4 text-center font-bold text-base text-slate-900" id="u-kaos-or">-</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -314,6 +324,16 @@
                         <td style="border: 1px solid black; padding: 10px;">Celana/rok pramuka</td>
                         <td style="border: 1px solid black; padding: 10px; text-align: center; font-weight: bold; font-size: 16px;" id="p-celana-pramuka">-</td>
                     </tr>
+                    <tr>
+                        <td style="border: 1px solid black; padding: 10px; text-align: center;">9</td>
+                        <td style="border: 1px solid black; padding: 10px;">Atribut</td>
+                        <td style="border: 1px solid black; padding: 10px; text-align: center; font-weight: bold; font-size: 16px;" id="p-atribut">-</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid black; padding: 10px; text-align: center;">10</td>
+                        <td style="border: 1px solid black; padding: 10px;">Kaos OR</td>
+                        <td style="border: 1px solid black; padding: 10px; text-align: center; font-weight: bold; font-size: 16px;" id="p-kaos-or">-</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -356,8 +376,8 @@
 
         // Data Simulasi (Fallback) jika koneksi sandbox browser mati total
         const SIMULATION_DATA = [
-            { noPendaftaran: "NO-001", nama: "AHMAD DHANI SANTOSO", asalSekolah: "SMP NEGERI 1 JAKARTA", jenisKelamin: "L", bajuOsis: "L", bajuBatikKotak: "L", bajuBatikLogo: "XL", bajuBatikAdat: "L", bajuPramuka: "XL", celanaBiru: "L", celanaPutih: "L", celanaPramuka: "XL" },
-            { noPendaftaran: "NO-002", nama: "SITI KHADIJAH AMINAH", asalSekolah: "SMP ISLAM AL-AZHAR", jenisKelamin: "P", bajuOsis: "M", bajuBatikKotak: "M", bajuBatikLogo: "M", bajuBatikAdat: "L", bajuPramuka: "M", celanaBiru: "M", celanaPutih: "M", celanaPramuka: "M" }
+            { noPendaftaran: "NO-001", nama: "AHMAD DHANI SANTOSO", asalSekolah: "SMP NEGERI 1 JAKARTA", jenisKelamin: "L", bajuOsis: "L", bajuBatikKotak: "L", bajuBatikLogo: "XL", bajuBatikAdat: "L", bajuPramuka: "XL", celanaBiru: "L", celanaPutih: "L", celanaPramuka: "XL", atribut: "✓", kaosOr: "L" },
+            { noPendaftaran: "NO-002", nama: "SITI KHADIJAH AMINAH", asalSekolah: "SMP ISLAM AL-AZHAR", jenisKelamin: "P", bajuOsis: "M", bajuBatikKotak: "M", bajuBatikLogo: "M", bajuBatikAdat: "L", bajuPramuka: "M", celanaBiru: "M", celanaPutih: "M", celanaPramuka: "M", atribut: "✓", kaosOr: "M" }
         ];
 
         let allStudents = [];
@@ -494,7 +514,9 @@
                     bajuBatikAdat: getValue(10), // Kolom K
                     celanaPutih: getValue(11),   // Kolom L
                     bajuPramuka: getValue(12),   // Kolom M
-                    celanaPramuka: getValue(13)  // Kolom N
+                    celanaPramuka: getValue(13), // Kolom N
+                    atribut: getValue(15),       // Kolom P (Indeks ke-15)
+                    kaosOr: getValue(16)         // Kolom Q (Indeks ke-16)
                 };
             }).filter(student => student.noPendaftaran !== '-' && student.nama !== '-');
         }
@@ -603,6 +625,10 @@
             setField('u-celana-biru', student.celanaBiru, true);
             setField('u-celana-putih', student.celanaPutih);
             setField('u-celana-pramuka', student.celanaPramuka);
+            
+            // Atur No 9 & 10 dinamis dari data spreadsheet kolom P & Q
+            setField('u-atribut', student.atribut);
+            setField('u-kaos-or', student.kaosOr);
 
             // Render ke Template Cetak Khusus
             document.getElementById('p-nama').innerText = student.nama;
@@ -622,6 +648,10 @@
             setPrintField('p-celana-biru', student.celanaBiru);
             setPrintField('p-celana-putih', student.celanaPutih);
             setPrintField('p-celana-pramuka', student.celanaPramuka);
+            
+            // Set No 9 & 10 untuk tampilan cetak
+            setPrintField('p-atribut', student.atribut);
+            setPrintField('p-kaos-or', student.kaosOr);
         }
 
         // Triger cetak bersih
@@ -635,6 +665,7 @@
             document.getElementById('csv-modal').classList.remove('hidden');
         }
 
+        // Tutup Modal Impor Manual
         function closeCsvModal() {
             document.getElementById('csv-modal').classList.add('hidden');
         }
